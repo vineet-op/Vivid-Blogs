@@ -18,12 +18,11 @@ export const blogRouter = new Hono<{
 
 
 blogRouter.use("/*", async (c, next) => {
-
-    const header = c.req.header("authorization") || ""
-    const response = await verify(header, c.env.JWT_SECRET)
+    const authHeader = c.req.header("authorization") || ""
     try {
-        if (response) {
-            c.set("userId", response.id)
+        const user = await verify(authHeader, c.env.JWT_SECRET)
+        if (user) {
+            c.set("userId", user.id)
             await next();
         }
         else {
@@ -32,7 +31,10 @@ blogRouter.use("/*", async (c, next) => {
         }
     } catch (error) {
         c.status(403)
-        return c.json({ message: "Un-Authorized" })
+        return c.json({
+            message: "Un-Authorized",
+            Error: error
+        })
     }
 })
 
@@ -114,13 +116,21 @@ blogRouter.get("/bulk", async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
 
-    const blog = await prisma.post.findMany({})
-    console.log(blog);
-
-    return c.json({
-
-        Blogs: blog
-    })
+    try {
+        const blogs = await prisma.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true
+            }
+        })
+        console.log(blogs);
+        return c.json({
+            blogs
+        })
+    } catch (error) {
+        return c.json({ Errorinbulk: error })
+    }
 })
 
 
@@ -136,6 +146,11 @@ blogRouter.get('/:id', async (c) => {
             where: {
                 id: id
             },
+            select: {
+                title: true,
+                content: true,
+                id: true
+            }
         })
         return c.json({
             blog

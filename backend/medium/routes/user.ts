@@ -41,13 +41,10 @@ userRouter.post('/signup', async (c) => {
 
 
         const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-
-        return c.json({
-            jwt: token
-        });
+        return c.text(token)
 
     } catch (error) {
-        console.log(error);
+        console.log("Signup", error);
         return c.status(403);
 
     }
@@ -73,32 +70,23 @@ userRouter.post('/signin', async (c) => {
     }).$extends(withAccelerate())
 
     try {
-
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
                 email: body.email,
                 password: body.password
             }
         });
-
         if (!user) {
             c.status(403)
             return c.json({ error: "User not found" })
         }
-
         const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-
+        return c.text(token)
+    }
+    catch (error) {
         return c.json({
-            jwt: token
-        });
-
-
-
-    } catch (error) {
-        return c.json({
-            message: "Error While Signing In"
+            message: "Error While Signing In",
+            Error: error
         })
     }
-
-
 })
