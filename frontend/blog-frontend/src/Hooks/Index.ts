@@ -3,13 +3,16 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config"
 
 
+
 export interface Blog {
     id: string
     title: string,
     content: string,
     published: string,
     authorId: string
+    imageURL: string
 }
+
 
 export const useBlog = ({ id }: { id: string }) => {
     const [Loading, setLoading] = useState(true)
@@ -49,6 +52,7 @@ interface BlogsProps {
     content: string,
     published: string,
     authorId: string
+    imageURL: string
 }
 
 export const useBlogs = () => {
@@ -73,11 +77,12 @@ export const useBlogs = () => {
         }
     }, [])
 
-    console.log("The Blogs:", Blogs);
 
+    console.log("The Blogs:", Blogs);
     return {
         Loading,
         Blogs
     }
 
 }
+

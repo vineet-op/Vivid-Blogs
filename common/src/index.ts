@@ -16,6 +16,7 @@ export type SignInSchema = z.infer<typeof signinInput>;
 
 export const createPostInput = z.object({
     title: z.string(),
+
     content: z.string(),
 });
 

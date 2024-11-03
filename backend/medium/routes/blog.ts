@@ -3,6 +3,10 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { verify } from 'hono/jwt'
 import { createPostInput, updatePostInput } from "@vintech1000/medium-commonv1"
+import { v2 as cloudinary } from 'cloudinary';
+
+
+
 
 
 export const blogRouter = new Hono<{
@@ -15,7 +19,11 @@ export const blogRouter = new Hono<{
     }
 }>();
 
-
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 blogRouter.use("/*", async (c, next) => {
     const authHeader = c.req.header("authorization") || ""
@@ -41,33 +49,72 @@ blogRouter.use("/*", async (c, next) => {
 
 
 blogRouter.post('/', async (c) => {
-    const body = await c.req.json();
-    const authorId = c.get("userId")
-    const { success } = createPostInput.safeParse(body);
+    try {
+        const formData = await c.req.formData();
+        const title = formData.get('title') as string;
+        const content = formData.get('content') as string;
+        const image = formData.get('image') as File;
+        const authorId = c.get("userId");
 
-    if (!success) {
-        c.status(403)
-        return c.json({
-            message: "Incorrect inputs while creating post"
-        })
-    }
+        let imageURL = '';
 
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate())
+        if (image) {
+            // Convert the file to base64
+            const arrayBuffer = await image.arrayBuffer();
+            const bytes = new Uint8Array(arrayBuffer);
+            const base64Image = btoa(
+                bytes.reduce((data, byte) => data + String.fromCharCode(byte), '')
+            );
 
-    const blog = await prisma.post.create({
-        data: {
-            title: body.title,
-            content: body.content,
-            authorId: authorId
+            // Upload to Cloudinary
+            const uploadResponse = await fetch(
+                `https://api.cloudinary.com/v1_1/dgcjzooxx/upload`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        file: `data:${image.type};base64,${base64Image}`,
+                        api_key: 495285587171927,
+                        upload_preset: 'ml_default',
+                        folder: 'blog_images'
+                    })
+                }
+            );
+
+            const result: any = await uploadResponse.json();
+            console.log(result);
+            if (!uploadResponse.ok) {
+                throw new Error('Image upload failed');
+            }
+            imageURL = result.secure_url;
         }
-    })
 
-    return c.json({
-        blogId: blog.id
-    })
-})
+        // Create blog post with Prisma
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL,
+        }).$extends(withAccelerate());
+
+        const blog = await prisma.post.create({
+            data: {
+                title,
+                content,
+                imageURL,
+                authorId
+            }
+        });
+
+        return c.json({
+            blogId: blog.id,
+            imageURL
+        });
+
+    } catch (error) {
+        console.error('Error creating blog post:', error);
+        return c.json({ error: 'Failed to create blog post' }, 500);
+    }
+});
 
 blogRouter.put('/', async (c) => {
     const body = await c.req.json();
@@ -121,10 +168,11 @@ blogRouter.get("/bulk", async (c) => {
             select: {
                 id: true,
                 title: true,
-                content: true
+                content: true,
+                imageURL: true
             }
         })
-        console.log(blogs);
+        // console.log(blogs);
         return c.json({
             blogs
         })
@@ -149,6 +197,7 @@ blogRouter.get('/:id', async (c) => {
             select: {
                 title: true,
                 content: true,
+                imageURL: true,
                 id: true
             }
         })

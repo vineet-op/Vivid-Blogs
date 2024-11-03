@@ -14,6 +14,10 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
                     <div className="text-slate-500 pt-2">
                         Post on 2nd December 2023
                     </div>
+                    <div className="w-screen pt-5 pb-5">
+                        <img src={blog.imageURL} className="max-w-screen-sm" aria-placeholder="Blog-Image" />
+                    </div>
+
                     <div className="pt-4">
                         {blog.content}
                     </div>
@@ -31,7 +35,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
                                 {"Anonymous"}
                             </div>
                             <div className="pt-2 text-slate-500">
-                                Random catch phrase about the author's ability to grab the user's attention
+                                Randommm catch phrase about the author's ability to grab the user's attention
                             </div>
                         </div>
                     </div>
