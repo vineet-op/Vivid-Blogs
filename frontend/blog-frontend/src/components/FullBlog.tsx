@@ -1,8 +1,26 @@
+import { useNavigate } from "react-router-dom"
 import { Blog } from "../Hooks/Index"
 import { Appbar } from "./Appbar"
 import { Avatar } from "./BlogCard"
+import axios from "axios"
+import { BACKEND_URL } from "../config"
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
+
+    const navigate = useNavigate()
+
+    const HandleDelete = async (id: any) => {
+        try {
+            const response = await axios.delete(`${BACKEND_URL}/api/v1/blog/${id}`)
+            alert(response.data.message);
+            navigate("/blogs"); // Redirect to blog list or another page
+        } catch (error) {
+            console.error("Error deleting blog:", error);
+            alert("There was an error deleting this blog.");
+        }
+        console.log(blog.id);
+    }
+
     return <div>
         <Appbar />
         <div className="flex justify-center">
@@ -21,6 +39,13 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
                     <div className="pt-4">
                         {blog.content}
                     </div>
+
+                    <button className="bg-red-500 text-white text-md text-center p-2 rounded-3xl"
+                        onClick={() => HandleDelete(blog.id)}
+
+                    >
+                        Delete Blog
+                    </button>
                 </div>
                 <div className="col-span-4">
                     <div className="text-slate-600 text-lg">

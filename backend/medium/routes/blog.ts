@@ -4,6 +4,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { verify } from 'hono/jwt'
 import { createPostInput, updatePostInput } from "@vintech1000/medium-commonv1"
 import { v2 as cloudinary } from 'cloudinary';
+import { title } from "process";
 
 
 
@@ -185,6 +186,7 @@ blogRouter.get("/bulk", async (c) => {
 
 blogRouter.get('/:id', async (c) => {
     const id = c.req.param("id");
+
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
@@ -206,6 +208,7 @@ blogRouter.get('/:id', async (c) => {
         })
 
 
+
     } catch (error) {
         c.status(411)
         return c.json({
@@ -219,3 +222,31 @@ blogRouter.get('/:id', async (c) => {
 
 
 
+blogRouter.delete("/:id", async (c) => {
+
+    const id = c.req.param("id");
+    console.log(id);
+
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+
+    try {
+        const Blog = await prisma.post.delete({
+            where: {
+                id: id,
+            },
+        })
+        return c.json({
+            message: `Blog with ID ${id} deleted successfully.`,
+        });
+
+    } catch (error) {
+        console.log("error while deleteing blog");
+        return c.json({
+            message: error
+        })
+    }
+
+})

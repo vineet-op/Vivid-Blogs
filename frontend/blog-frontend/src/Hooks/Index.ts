@@ -86,3 +86,15 @@ export const useBlogs = () => {
 
 }
 
+
+interface BlogsProps {
+    id: string
+    title: string,
+    content: string,
+    published: string,
+    authorId: string
+    imageURL: string
+}
+
+
+
