@@ -16,16 +16,18 @@ export const Blogs = () => {
     return (
         <div>
             <Appbar />
-            <div className="flex flex-col mt-5 justify-center items-center gap-2 max-w-screen-2xl">
-                {Blogs.map((blog) => (
-                    <BlogCard authorName={"Vineet"}
-                        id={blog.id}
-                        title={blog.title}
-                        content={blog.content}
-                        publishedDate={"3 October"}
-                        imageURL={blog.imageURL}
-                    />
-                ))}
+            <div className="container mx-auto px-4 bg-gradient-to-r from-rose-400 to-orange-300 py-10">
+                <div className="grid grid-cols-1 items-center p-2 justify-center sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {Blogs.map((blog) => (
+                        <BlogCard authorName={"Vineet"}
+                            id={blog.id}
+                            title={blog.title}
+                            content={blog.content}
+                            publishedDate={"3 October"}
+                            imageURL={blog.imageURL}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
 
