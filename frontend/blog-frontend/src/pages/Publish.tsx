@@ -11,7 +11,7 @@ import 'react-quill/dist/quill.snow.css';
 
 export const Publish = () => {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState(""); // Still use useState for content
+    const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [image, setImage] = useState<File | null>(null);
@@ -53,7 +53,7 @@ export const Publish = () => {
         try {
             const formData = new FormData();
             formData.append('title', title);
-            formData.append('content', content); // Send content as HTML
+            formData.append('content', content);
             if (image) {
                 formData.append('image', image);
             }
@@ -86,52 +86,46 @@ export const Publish = () => {
         <>
             <Appbar />
             {loading ? (
-                <div>
+                <div className="flex justify-center items-center h-screen">
                     <Loader />
                 </div>
             ) : (
-                <div className="bg-gradient-to-r from-rose-400 to-orange-300 h-screen">
-                    <div className="flex flex-col gap-4 justify-center items-center max-w-[800px] pt-2 mx-auto">
-                        <p className="text-4xl font-thin text-center">What's on your mind?</p>
-
-                        {/* Title Input */}
-                        <input
-                            type="text"
-                            placeholder="Enter Blog Title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className="w-full p-2 border rounded"
-                        />
-
-                        {/* Rich Text Editor for Content */}
-                        <ReactQuill
-                            value={content}
-                            onChange={handleContentChange}
-                            placeholder="Write your content here..."
-                            className="w-full h-80 bg-white"
-                        />
-
-                        {/* Image Upload Section */}
-                        <div className="w-full mt-9">
-                            <label className="block text-sm font-medium text-gray-700">
-                                Blog Image
-                            </label>
-                            <input type="file" onChange={handleImageChange} className="mt-2" />
+                <div className="bg-gradient-to-r from-rose-400 to-orange-300 min-h-screen px-4 py-8 flex items-center">
+                    <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-[800px] mx-auto">
+                        <h1 className="text-5xl  text-center mb-4 font-extrabold ">What's on your mind ?</h1>
+                        <div className="flex flex-col gap-4">
+                            <input
+                                type="text"
+                                className="border rounded-md p-2 w-full focus:outline-none focus:ring-2 font-mono focus:ring-orange-400"
+                                placeholder="Title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <ReactQuill
+                                value={content}
+                                onChange={handleContentChange}
+                                className="h-40"
+                            />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="mt-6"
+                                onChange={handleImageChange}
+                            />
                             {imagePreview && (
                                 <img
                                     src={imagePreview}
                                     alt="Preview"
-                                    className="mt-4 max-h-max w-auto rounded"
+                                    className="mt-2 size-52 h-auto object-cover rounded-md"
                                 />
                             )}
+                            <button
+                                onClick={publishBlog}
+                                className="bg-green-500 text-white rounded-md p-2 hover:bg-orange-600 transition-colors"
+                            >
+                                Publish
+                            </button>
                         </div>
-
-                        <button
-                            onClick={publishBlog}
-                            className="mt-4 bg-blue-600 w-32 h-10 rounded-lg text-white font-semibold"
-                        >
-                            Publish
-                        </button>
                     </div>
                 </div>
             )}
