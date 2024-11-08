@@ -6,13 +6,13 @@ interface BlogCardProps {
     authorName: string,
     title: string
     content: string
-    publishedDate: string
+    // publishedDate: string
     id: string
     imageURL: string
 }
 
 
-export const BlogCard = ({ authorName, title, content, publishedDate, id, imageURL }: BlogCardProps) => {
+export const BlogCard = ({ authorName, title, content, id, imageURL }: BlogCardProps) => {
 
 
     return <Link to={`/blog/${id}`}>

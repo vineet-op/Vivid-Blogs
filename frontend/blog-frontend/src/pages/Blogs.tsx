@@ -23,7 +23,7 @@ export const Blogs = () => {
                             id={blog.id}
                             title={blog.title}
                             content={blog.content}
-                            publishedDate={"3 October"}
+                            // publishedDate={"3 October"}
                             imageURL={blog.imageURL}
                         />
                     ))}
