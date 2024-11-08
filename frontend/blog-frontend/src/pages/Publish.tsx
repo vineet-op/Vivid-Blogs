@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, Bounce } from "react-toastify";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Skeleton } from "../components/Skeleton";
 
 export const Publish = () => {
     const [title, setTitle] = useState("");
@@ -69,6 +70,7 @@ export const Publish = () => {
                 }
             );
             console.log(response);
+            <Skeleton />
             navigate(`/blog/${response.data.blogId}`);
         } catch (error) {
             console.error('Error publishing blog:', error);
