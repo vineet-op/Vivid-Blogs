@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-import ReactHtmlParser from 'react-html-parser';
+
+import parse from 'html-react-parser';
 
 
 interface BlogCardProps {
@@ -10,6 +11,7 @@ interface BlogCardProps {
     id: string
     imageURL: string
 }
+
 
 
 export const BlogCard = ({ authorName, title, content, id, imageURL }: BlogCardProps) => {
@@ -25,7 +27,7 @@ export const BlogCard = ({ authorName, title, content, id, imageURL }: BlogCardP
 
             {/* Content */}
             <p className="text-gray-700 mb-4 line-clamp-4">
-                {ReactHtmlParser(content)}
+                {parse(content)}
             </p>
 
             {/* Author and Published Date */}

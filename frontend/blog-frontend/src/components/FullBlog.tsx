@@ -3,7 +3,7 @@ import { Blog } from "../Hooks/Index";
 import { Appbar } from "./Appbar";
 import { Avatar } from "./BlogCard";
 import { SkipBack } from "lucide-react";
-import ReactHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
                             />
                         </div>
                         <div className="mt-4 text-gray-700 leading-relaxed">
-                            {ReactHtmlParser(blog.content)}
+                            {parse(blog.content)}
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-4 bg-gray-50 p-4 rounded-lg shadow-md">
