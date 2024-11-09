@@ -32,8 +32,8 @@ A powerful blogging platform built with modern web technologies.
    git clone https://github.com/vineet-op/Medium.git
 
 2. ```bash
-   cd/backend
-   cd/frontend
+   cd/backend/medium
+   cd/frontend/blog-frontend
    npm install
 
 4. Run
