@@ -29,18 +29,18 @@ A powerful blogging platform built with modern web technologies.
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/your-username/vivid-blogs.git](https://github.com/your-username/vivid-blogs.git)
+   git clone https://github.com/vineet-op/Medium.git
 
 2. ```bash
    cd/backend
-   cd/common
    cd/frontend
+   npm install
 
 4. Run
     ```bash
     npm run dev
 
-5. Visit to http://localhost:5173/
+5. Visit http://localhost:5173/
     
    
         
