@@ -111,7 +111,7 @@ export const Publish = () => {
                             <input
                                 type="file"
                                 accept="image/*"
-                                className="mt-6"
+                                className="mt-10"
                                 onChange={handleImageChange}
                             />
                             {imagePreview && (
