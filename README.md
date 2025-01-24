@@ -1,6 +1,6 @@
 # Vivid Blogs
 
-A powerful blogging platform built with modern web technologies.
+A modern, visually captivating blogging platform designed for writers and readers alike. With its clean UI, seamless navigation.
 
 **Features:**
 
@@ -9,6 +9,10 @@ A powerful blogging platform built with modern web technologies.
 * **Image Uploading:** Upload images to your posts using Cloudinary.
 * **Rich Text Editor:** Create visually appealing content with a rich text editor.
 * **Intuitive User Interface:** A user-friendly interface for seamless blogging experience.
+
+# Demo Video
+
+https://github.com/user-attachments/assets/ac615628-4f73-443e-b443-f553f095098d
 
 # Tech Stack:
 
