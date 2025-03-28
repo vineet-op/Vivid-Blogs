@@ -12,7 +12,7 @@ export const FullBlog = ({ blog }: { blog: Blog }) => {
 
     return (<>
         <Appbar />
-        <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-400 to-orange-300">
+        <div className="min-h-screen flex flex-col bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
             <div className="flex justify-center flex-grow p-4">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full max-w-screen-xl bg-white rounded-xl shadow-lg p-6">
                     <div className="col-span-1 lg:col-span-8">

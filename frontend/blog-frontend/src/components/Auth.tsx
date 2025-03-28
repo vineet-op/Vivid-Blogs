@@ -23,7 +23,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 postInputs
             );
             const jwt = response.data;
-            console.log(jwt);
+            // console.log(jwt);
             localStorage.setItem("token", jwt);
             navigate("/blogs");
         } catch (e) {
@@ -46,20 +46,21 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     return (
         <div className="h-screen flex justify-center flex-col">
             <div className="flex justify-center">
-                <div>
+                <div className="">
                     <div className="px-10">
-                        <div className="text-5xl font-extrabold">
+                        <div className="text-4xl font-serif">
                             Create an account
                         </div>
-                        <div className="text-white text-center text-lg">
+                        <div className="text-white text-center text-lg font-serif">
                             {type === "signin" ? "Don't have an account?" : "Already have an account?"}
                             <Link className="pl-2 underline" to={type === "signin" ? "/signup" : "/signin"}>
                                 {type === "signin" ? "Sign up" : "Sign in"}
                             </Link>
                         </div>
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-8 w-96 mx-auto">
                         <LabelledInput
+                            disabled={loading}
                             label="Username"
                             placeholder="harkirat@gmail.com"
                             value={postInputs.email} // Add value prop to prefill
@@ -71,6 +72,8 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                             }}
                         />
                         <LabelledInput
+                            disabled={loading}
+
                             label="Password"
                             type="password"
                             placeholder="123456"
@@ -85,7 +88,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                         <button
                             onClick={sendRequest}
                             type="button"
-                            className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                            className="mt-8 w-1/2 flex mx-auto justify-center items-center  text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                         >
                             {loading ? "Loading..." : (type === "signup" ? "Sign up" : "Sign in")}
                         </button>
@@ -102,13 +105,15 @@ interface LabelledInputType {
     placeholder?: string;
     value?: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    disabled: boolean
 }
 
 // LabelledInput component (add this below or in a separate file if needed)
-const LabelledInput = ({ label, type = "text", placeholder, value, onChange }: LabelledInputType) => (
+const LabelledInput = ({ label, type = "text", placeholder, value, onChange, disabled }: LabelledInputType) => (
     <div className="mb-4">
-        <label className="block text-md text-white font-bold text-gray-700">{label}</label>
+        <label className="block text-md text-white font-bold">{label}</label>
         <input
+            disabled={disabled}
             type={type}
             placeholder={placeholder}
             value={value}

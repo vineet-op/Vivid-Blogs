@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export const Appbar = () => {
     return <div className="border-b flex justify-between px-10 py-4">
-        <Link to={'/blogs'} className="flex flex-col text-3xl font-extrabold justify-center cursor-pointer bg-gradient-to-b from-rose-400 to-orange-300 bg-clip-text text-transparent">
+        <Link to={'/blogs'} className="flex flex-col text-3xl font-extrabold justify-center cursor-pointer bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             Vivid Blogs
         </Link>
         <div>

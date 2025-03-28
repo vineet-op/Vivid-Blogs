@@ -92,9 +92,9 @@ export const Publish = () => {
                     <Loader />
                 </div>
             ) : (
-                <div className="bg-gradient-to-r from-rose-400 to-orange-300 min-h-screen px-4 py-8 flex items-center">
+                <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 min-h-screen px-4 py-8 flex items-center">
                     <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-[800px] mx-auto">
-                        <h1 className="text-5xl  text-center mb-4 font-extrabold ">What's on your mind ?</h1>
+                        <h1 className="text-5xl  text-center mb-4 font-bold ">What's on your mind ?</h1>
                         <div className="flex flex-col gap-4">
                             <input
                                 type="text"
@@ -123,7 +123,7 @@ export const Publish = () => {
                             )}
                             <button
                                 onClick={publishBlog}
-                                className="bg-green-500 text-white rounded-md p-2 hover:bg-orange-600 transition-colors"
+                                className="bg-green-500 text-white rounded-md p-2 hover:bg-purple-600 transition-colors w-1/2 text-center mx-auto"
                             >
                                 Publish
                             </button>

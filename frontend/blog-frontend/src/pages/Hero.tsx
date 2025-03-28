@@ -1,73 +1,172 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 
+import { motion } from 'framer-motion'
+import { cn } from "@/lib/utils";
+import { Marquee } from "@/components/magicui/marquee";
+import { ArrowRight } from 'lucide-react';
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { useNavigate } from 'react-router-dom';
 
 
 export const Hero = () => {
 
-    const [scrollY, setScrollY] = useState(0)
+    const navigation = useNavigate()
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY)
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: "easeOut" }
+        }
+    };
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-            <nav className="fixed w-full z-10 bg-white bg-opacity-10 backdrop-blur-md">
-                <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-                    <a href="/" className="flex items-center space-x-2">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        <span className="text-2xl font-bold text-white">VividBlog</span>
-                    </a>
-                    <div className="flex space-x-2 gap-2">
-                        <button className="text-white p-3  border-white hover:bg-white hover:text-purple-600 transition-colors duration-300 rounded-xl ">
-                            <a href="/signin"  >
-                                Sign In
-                            </a>
-                        </button>
-                        <button className="bg-yellow-400 p-2 rounded-lg text-purple-800 hover:bg-yellow-300 transition-colors duration-300">
-                            <a href="/signin">
-                                Sign Up
-                            </a>
-                        </button>
-                    </div>
-                </div>
-            </nav>
-
-            <main className="container mx-auto px-4 pt-24">
+        <section className="h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 pt-32 pb-16 md:pt-40 md:pb-24">
+            <div className="container px-4 md:px-6">
                 <motion.div
-                    className="flex flex-col items-center justify-center min-h-[calc(100vh-6rem)] text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    className="flex flex-col items-center text-center space-y-4"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
                 >
+                    <motion.div
+                        className="inline-block rounded-full bg-black text-white px-3 py-2 text-sm font-medium mb-2"
+                        variants={itemVariants}
+                    >
+                        ✨ Welcome to Vividblogs
+                    </motion.div>
+
                     <motion.h1
-                        className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight"
-                        style={{ y: scrollY * 0.2 }}
+                        className="text-4xl md:text-6xl font-bold tracking-tighter max-w-3xl"
+                        variants={itemVariants}
                     >
-                        Welcome to <span className="text-yellow-300">VividBlog</span>
+                        Thoughts, stories and ideas that <span className="text-transparent bg-clip-text bg-white ">inspire</span>
                     </motion.h1>
+
                     <motion.p
-                        className="text-xl md:text-2xl text-white mb-8 max-w-2xl"
-                        style={{ y: scrollY * 0.1 }}
+                        className="text-black text-base md:text-xl max-w-[700px] font-medium"
+                        variants={itemVariants}
                     >
-                        Explore a world of vibrant ideas, colorful stories, and inspiring content
+                        Discover articles on design, development, and creative thinking from leading voices in the industry.
                     </motion.p>
+
+                    <motion.div
+                        className="flex flex-col sm:flex-row gap-4 mt-6"
+                        variants={itemVariants}
+                    >
+                        <RainbowButton onClick={() => navigation("/signin")} className="px-4 py-2 bg-primary text-primary-foreground text-lg rounded-md group flex items-center">
+                            Start Reading
+                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </RainbowButton>
+                    </motion.div>
                 </motion.div>
-
-            </main>
-
-            <div className="absolute bottom-0 left-0 w-full overflow-hidden">
-                <svg className="w-full h-auto" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#ffffff" fillOpacity="0.2" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-                </svg>
             </div>
-        </div>
+
+            <div className="relative flex w-full flex-col items-center justify-center overflow-hidden  bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-8 ">
+                <Marquee pauseOnHover className="[--duration:20s] ">
+                    {firstRow.map((review) => (
+                        <ReviewCard key={review.username} {...review} />
+                    ))}
+                </Marquee>
+                <Marquee pauseOnHover className="[--duration:20s] ">
+                    {firstRow.map((review) => (
+                        <ReviewCard key={review.username} {...review} />
+                    ))}
+                </Marquee>
+            </div>
+        </section>
     )
 }
+
+
+const reviews = [
+    {
+        name: "Jack Thompson",
+        username: "@jack",
+        body: "The Future of Web Development: React and TypeScript",
+        img: "https://avatar.vercel.sh/jack",
+        blogTitle: "Modern Web Architectures",
+    },
+    {
+        name: "Jill Rodriguez",
+        username: "@jill",
+        body: "Design Thinking in User Experience Design",
+        img: "https://avatar.vercel.sh/jill",
+        blogTitle: "UX Design Principles",
+    },
+    {
+        name: "John Chen",
+        username: "@john",
+        body: "Machine Learning Algorithms for Beginners",
+        img: "https://avatar.vercel.sh/john",
+        blogTitle: "Introduction to AI",
+    },
+    {
+        name: "Jane Kim",
+        username: "@jane",
+        body: "Sustainable Software Engineering Practices",
+        img: "https://avatar.vercel.sh/jane",
+        blogTitle: "Green Coding Techniques",
+    },
+    {
+        name: "Jenny Martinez",
+        username: "@jenny",
+        body: "Cybersecurity Trends in 2024",
+        img: "https://avatar.vercel.sh/jenny",
+        blogTitle: "Protecting Digital Landscapes",
+    },
+    {
+        name: "James Wong",
+        username: "@james",
+        body: "Blockchain Technology Beyond Cryptocurrency",
+        img: "https://avatar.vercel.sh/james",
+        blogTitle: "Decentralized Innovations",
+    },
+];
+
+const firstRow = reviews.slice(0, reviews.length / 2);
+const secondRow = reviews.slice(reviews.length / 2);
+
+export const ReviewCard = ({
+    img,
+    name,
+    username,
+    body,
+}: {
+    img: string;
+    name: string;
+    username: string;
+    body: string;
+}) => {
+    return (
+        <figure
+            className={cn(
+                "bg-white",
+                "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+
+            )}
+        >
+            <div className="flex flex-row items-center gap-2">
+                <img className="rounded-full" width="32" height="32" alt="" src={img} />
+                <div className="flex flex-col">
+                    <figcaption className="text-sm font-medium dark:text-white">
+                        {name}
+                    </figcaption>
+                    <p className="text-xs font-medium dark:text-white/40">{username}</p>
+                </div>
+            </div>
+            <blockquote className="mt-2 text-sm">{body}</blockquote>
+        </figure>
+    );
+};
