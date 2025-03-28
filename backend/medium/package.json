@@ -10,7 +10,9 @@
     "@vintech1000/medium-common": "^1.0.2",
     "@vintech1000/medium-commonv1": "^1.0.1",
     "cloudinary": "^2.5.1",
+    "dotenv": "^16.4.7",
     "hono": "^4.6.3",
+    "openai": "^4.77.0",
     "prisma": "^5.20.0"
   },
   "devDependencies": {

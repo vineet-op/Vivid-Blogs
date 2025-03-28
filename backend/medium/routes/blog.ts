@@ -4,7 +4,8 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { verify } from 'hono/jwt'
 import { createPostInput, updatePostInput } from "@vintech1000/medium-commonv1"
 import { v2 as cloudinary } from 'cloudinary';
-
+import OpenAI from "openai";
+import dotenv from 'dotenv';
 
 
 
@@ -25,6 +26,7 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
 
 blogRouter.use("/*", async (c, next) => {
     const authHeader = c.req.header("authorization") || ""
@@ -49,6 +51,7 @@ blogRouter.use("/*", async (c, next) => {
 
 
 
+
 blogRouter.post('/', async (c) => {
     try {
         const formData = await c.req.formData();
@@ -69,7 +72,7 @@ blogRouter.post('/', async (c) => {
 
             // Upload to Cloudinary
             const uploadResponse = await fetch(
-                `https://api.cloudinary.com/v1_1/dgcjzooxx/upload`,
+                `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`,
                 {
                     method: 'POST',
                     headers: {
@@ -77,8 +80,8 @@ blogRouter.post('/', async (c) => {
                     },
                     body: JSON.stringify({
                         file: `data:${image.type};base64,${base64Image}`,
-                        api_key: 495285587171927,
-                        upload_preset: 'ml_default',
+                        api_key: process.env.CLOUDINARY_API_KEY,
+                        upload_preset: process.env.PRESET,
                         folder: 'blog_images'
                     })
                 }
@@ -106,9 +109,23 @@ blogRouter.post('/', async (c) => {
             }
         });
 
+        const openai = new OpenAI({ apiKey: process.env.YOUR_OPENAI_API_KEY });
+        const response = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo', // Use the desired OpenAI model
+
+            messages: [
+                { role: 'system', content: 'You are an assistant that summarizes blog content.' },
+                { role: 'user', content: `Summarize this blog content: ${content}` }
+            ]
+        });
+
+        const summary = response.choices[0]?.message?.content;
+        console.log(summary);
+
         return c.json({
             blogId: blog.id,
-            imageURL
+            imageURL,
+            summary
         });
 
     } catch (error) {
