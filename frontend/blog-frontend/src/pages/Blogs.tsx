@@ -20,7 +20,7 @@ export const Blogs = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
         >
             <Appbar />
-            <div className="container mx-auto px-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 py-10">
+            <div className="container mx-auto px-4 bg-black py-10">
                 <div className="grid grid-cols-1 items-center p-2 justify-center sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {Blogs.map((blog, index) => (
                         <motion.div

@@ -32,7 +32,7 @@ export const Hero = () => {
 
 
     return (
-        <section className="h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 pt-32 pb-16 md:pt-40 md:pb-24">
+        <section className="h-screen bg-gradient-to-r bg-black pt-32 pb-16 md:pt-40 md:pb-24">
             <div className="container px-4 md:px-6">
                 <motion.div
                     className="flex flex-col items-center text-center space-y-4"
@@ -44,21 +44,21 @@ export const Hero = () => {
                         className="inline-block rounded-full bg-black text-white px-3 py-2 text-sm font-medium mb-2"
                         variants={itemVariants}
                     >
-                        ✨ Welcome to Vividblogs
+                        ✨ Welcome to Vivid Blogs
                     </motion.div>
 
                     <motion.h1
-                        className="text-4xl md:text-6xl font-bold tracking-tighter max-w-3xl"
+                        className="text-4xl text-white md:text-6xl font-oswald tracking-tighter max-w-3xl"
                         variants={itemVariants}
                     >
-                        Thoughts, stories and ideas that <span className="text-transparent bg-clip-text bg-white ">inspire</span>
+                        Thoughts, stories and ideas that <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">inspire</span>
                     </motion.h1>
 
                     <motion.p
-                        className="text-black text-base md:text-xl max-w-[700px] font-medium"
+                        className="text-purple-100 text-base md:text-xl max-w-[700px] font-thin"
                         variants={itemVariants}
                     >
-                        Discover articles on design, development, and creative thinking from leading voices in the industry.
+                        Discover articles on design, development, and creative thinking.
                     </motion.p>
 
                     <motion.div
@@ -73,14 +73,14 @@ export const Hero = () => {
                 </motion.div>
             </div>
 
-            <div className="relative flex w-full flex-col items-center justify-center overflow-hidden  bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-8 ">
+            <div className="relative flex w-full flex-col items-center justify-center overflow-hidden  bg-gradient-to-r bg-black mt-7 ">
                 <Marquee pauseOnHover className="[--duration:20s] ">
                     {firstRow.map((review) => (
                         <ReviewCard key={review.username} {...review} />
                     ))}
                 </Marquee>
-                <Marquee pauseOnHover className="[--duration:20s] ">
-                    {firstRow.map((review) => (
+                <Marquee pauseOnHover reverse={true} className="[--duration:20s] ">
+                    {secondRow.map((review) => (
                         <ReviewCard key={review.username} {...review} />
                     ))}
                 </Marquee>
@@ -136,7 +136,7 @@ const reviews = [
 ];
 
 const firstRow = reviews.slice(0, reviews.length / 2);
-
+const secondRow = reviews.slice(reviews.length / 2);
 
 export const ReviewCard = ({
     img,
